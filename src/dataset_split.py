@@ -16,11 +16,11 @@ import numpy as np
 from pyspark.sql import SparkSession
 
 
-def read_data(file_path, sep=',', app_name='spark_app',
+def read_data(file_path, sep=',', app_name='split_dataset',
               master='local', random_state=None,
               test_size=0.25):
     """
-    读取数据文件,数据最后一列为标签列，仅限1和0,1为正样本，0位负样本
+    读取数据文件,数据最后一列为标签列，名称为label，1为正样本，0位负样本
     :param file_path:文件路径
     :param sep:分隔符
     :return:
@@ -55,5 +55,6 @@ def read_data(file_path, sep=',', app_name='spark_app',
 if __name__ == "__main__":
     path = os.path.abspath('..')
     file_path = path+'//data//test.csv'
-    read_data(file_path, sep='\t')
+    test, train = read_data(file_path, sep='\t')
+    print(test.take(10))
 
