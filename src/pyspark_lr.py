@@ -40,11 +40,16 @@ def read_data(file_path, sep=',', app_name='spark_app',
     # 筛选
     random.seed(random_state)
     pos_test_index = random.sample(pos_index.collect(), int(pos_index.count()*test_size))
-    print(pos_test_index)
-    print(neg_index.count())
-    # print(df.rdd.zipWithIndex().filter(lambda x: x[1] in index_list).map(lambda x: x[0]).collect())
-    # my_rdd = df.rdd [36, 2, 27, 30, 56, 0, 13]
-    # print(my_rdd.collect())
+    pos_train_index = list(np.setdiff1d(np.array(pos_index.collect()), np.array(pos_test_index)))
+
+    neg_test_index = random.sample(neg_index.collect(), int(neg_index.count()*test_size))
+    neg_train_index = list(np.setdiff1d(np.array(neg_index.collect()), np.array(neg_test_index)))
+    pos_test_index.extend(neg_test_index)
+    pos_train_index.extend(neg_train_index)
+
+    test_sample = sample_rdd.filter(lambda x: x[1] in pos_test_index).map(lambda x: x[0])
+    train_sample = sample_rdd.filter(lambda x: x[1] in pos_train_index).map(lambda x: x[0])
+    return test_sample, train_sample
 
 
 if __name__ == "__main__":
