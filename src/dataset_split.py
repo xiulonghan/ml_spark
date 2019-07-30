@@ -4,8 +4,8 @@ Author: HanXiuLong
 Email: aluka_hxl@gmail.com
 Time: 2019-05-27
 Reference: None
-功能：使用pyspark实现基本的LR模型。
-读取数据，分割数据，训练数据，预测数据
+功能：使用pyspark实现基本的训练集和测试集分割。
+读取数据并按照比例分割为训练和测试
 """
 from __future__ import print_function
 
